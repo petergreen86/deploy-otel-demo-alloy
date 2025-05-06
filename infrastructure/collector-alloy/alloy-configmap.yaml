@@ -131,7 +131,7 @@ data:
         context    = "datapoint"
         statements = [
           "set(attributes[\"deployment.environment\"], resource.attributes[\"deployment.environment\"])",
-          "set(attributes[\"deployment.environment.name\"], resource.attributes[\"deployment.environment.name\"])",
+          "set(attributes[\"deployment.environment.name\"], resource.attributes[\"deployment.environment\"])",
           "set(attributes[\"service.version\"], resource.attributes[\"service.version\"])",
         ]
       }

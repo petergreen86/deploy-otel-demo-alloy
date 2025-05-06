@@ -28,18 +28,6 @@ otelcol.processor.resourcedetection "default" {
   }
 }
 
-otelcol.processor.resource "set_deployment_environment" {
-  attributes {
-    set {
-      key = "deployment.environment"
-      value = "production" # Set your environment here
-      action = "set"
-    }
-  }
-  // Forward the data to the next component in the pipeline (e.g., batch processor)
-  forward_to = [otelcol.processor.batch.default.input]
-}
-
 otelcol.processor.transform "drop_unneeded_resource_attributes" {
   // https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.transform/
   error_mode = "ignore"
@@ -140,7 +128,7 @@ otelcol.processor.transform "add_resource_attributes_as_metric_attributes" {
     context    = "datapoint"
     statements = [
       "set(attributes[\"deployment.environment\"], resource.attributes[\"deployment.environment\"])",
-      "set(attributes[\"deployment.environment.name\"], resource.attributes[\"deployment.environment.name\"])",
+      "set(attributes[\"deployment.environment.name\"], resource.attributes[\"deployment.environment\"])",
       "set(attributes[\"service.version\"], resource.attributes[\"service.version\"])",
     ]
   }
