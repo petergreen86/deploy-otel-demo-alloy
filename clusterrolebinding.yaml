@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-secrets-configmaps-for-sa
+subjects:
+- kind: ServiceAccount
+  name: alloy
+  namespace: collector
+roleRef:
+  kind: ClusterRole
+  name: secret-configmap-reader-global
+  apiGroup: rbac.authorization.k8s.io

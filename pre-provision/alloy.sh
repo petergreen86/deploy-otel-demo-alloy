@@ -22,6 +22,8 @@ metadata:
 data:
   url: "\"$ALLOY_CLOUD_OTLP_URL\""
   username: "\"$ALLOY_CLOUD_OTLP_USERNAME\""
+  loki_url: "\"$ALLOY_CLOUD_LOKI_OTLP_URL\""
+  loki_username: "\"$ALLOY_CLOUD_LOKI_OTLP_USERNAME\""
 ---
 apiVersion: v1
 kind: Secret
@@ -30,5 +32,6 @@ metadata:
   namespace: collector
 type: Opaque
 data:
-  password: $ALLOY_CLOUD_OTLP_PASSSWORD_BASE64
+  otlp_password: $ALLOY_CLOUD_OTLP_PASSSWORD_BASE64
+  loki_password: $ALLOY_CLOUD_LOKI_OTLP_PASSSWORD_BASE64
 " | kubectl apply -f -
