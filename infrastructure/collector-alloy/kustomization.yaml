@@ -4,5 +4,5 @@ metadata:
   namespace: collector
 resources:
   - grafana-alloy.yaml
-  - config.alloy
+  - alloy-configmap.yaml
   # (See the readme for how the configmap manifest gets set up.)
