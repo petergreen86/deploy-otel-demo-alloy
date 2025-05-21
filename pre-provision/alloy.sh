@@ -26,6 +26,21 @@ data:
   loki_username: "\"$ALLOY_CLOUD_LOKI_OTLP_USERNAME\""
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: collector
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitops
+  namespace: collector
+data:
+  otel_processor_batch_size: \"300\"
+  otel_processor_batch_max: \"1000\"
+  otel_processor_batch_timeout: "5s"
+---
+apiVersion: v1
 kind: Secret
 metadata:
   name: grafanacloud-otlphttp-secret

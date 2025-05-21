@@ -138,11 +138,17 @@ data:
 
       output {
         metrics = [otelcol.processor.batch.default.input]
+        logs    = [otelcol.processor.batch.default.input]
       }
     }
 
     otelcol.processor.batch "default" {
       // https://grafana.com/docs/alloy/latest/reference/components/otelcol.processor.batch/
+      // send_batch_size = coalesce(encoding.from_yaml(remote.kubernetes.configmap.grafanacloud_gitops_configmap.data["otel_processor_batch_size"]), 301)
+      // send_batch_max_size = coalesce(encoding.from_yaml(remote.kubernetes.configmap.grafanacloud_gitops_configmap.data["otel_processor_batch_max"]), 1000)
+      // timeout = coalesce(encoding.from_yaml(remote.kubernetes.configmap.grafanacloud_gitops_configmap.data["otel_processor_batch_timeout"]), "5s")
+      //timeout = coalesce(string.format("%d", remote.kubernetes.configmap.grafanacloud_gitops_configmap.data["otel_processor_batch_timeout"]), "5s")
+      send_batch_size = coalesce(remote.kubernetes.configmap.grafanacloud_gitops_configmap.data["otel_processor_batch_size"], 256)
       output {
         metrics = [otelcol.exporter.otlphttp.grafana_cloud.input]
         logs    = [otelcol.exporter.otlphttp.loki_otlp.input]
@@ -158,6 +164,10 @@ data:
     remote.kubernetes.secret "grafanacloud_otlphttp_secret" {
       namespace = "collector"
       name = "grafanacloud-otlphttp-secret"
+    }
+    remote.kubernetes.configmap "grafanacloud_gitops_configmap" {
+      namespace = "collector"
+      name = "gitops"
     }
 
     // (The next 2 components are modified from the starter AppOlly production config in Grafana's docs.)
